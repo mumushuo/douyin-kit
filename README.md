@@ -41,22 +41,11 @@ This project is not affiliated with, endorsed by, or associated with Douyin or B
 
 ---
 
-## 💡 What Makes This Different / 差异化定位
+## 💡 定位 / Positioning
 
-> **唯一一个不做水印去除、用浏览器真实滚动绕过 API 分页限制、且代码干净到可以直接读懂的技术研究型抖音下载工具。**
+> 保留水印、浏览器滚动绕过 API 分页、代码干净——一个纯粹用于技术研究的抖音下载工具。
 >
-> *The only Douyin video downloader that skips watermark removal, bypasses API pagination via real browser scrolling, and keeps the codebase clean enough to read in one sitting.*
-
-| | 同类项目 / Others | douyin-kit |
-|---|---|---|
-| **水印 / Watermark** | 去除水印（灰色地带） | **保留原始水印**（合规） |
-| **采集方式 / Scraping** | API 直接调用，受分页限制 | **Playwright 浏览器滚动**，绕过 API 分页上限 |
-| **安装门槛 / Setup** | 模拟器、adb、复杂依赖 | **pip install + playwright install，两行搞定** |
-| **下载模式 / Download** | 一刀切：每视频一个文件夹 | **双模式**：文件夹 / 仅视频平铺输出 |
-| **工程规范 / Code Quality** | 无注释、无文档 | **全 docstring + 双语文档 + 清晰的 CLI 子命令** |
-
-This project is not trying to be another "free watermark remover" — it exists to be the clean, principled alternative that actually **survives**.
-本项目不做又一个「免费去水印工具」—— 它的定位是干净、讲原则、能**长期存活**的替代方案。
+> *Keeps watermarks intact, bypasses API pagination via browser scrolling, clean codebase — a Douyin downloader built purely for technical research.*
 
 ---
 
