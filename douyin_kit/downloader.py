@@ -1,4 +1,9 @@
-"""Video downloader using signed URLs from scraped metadata."""
+"""Video downloader using signed URLs from scraped metadata.
+
+Two download modes:
+  - "folder": video + cover + metadata in sub-directories (default)
+  - "video-only": only .mp4 files, flat in output directory
+"""
 import asyncio
 import json
 import re
@@ -48,6 +53,7 @@ async def download_videos(
     output_dir: Path,
     cookies: dict | None = None,
     skip_existing: bool = True,
+    mode: str = "folder",
 ) -> dict:
     """Download videos from scraped aweme metadata.
 
@@ -55,7 +61,9 @@ async def download_videos(
         awemes: List of aweme dicts from scraper
         output_dir: Directory to save downloads
         cookies: Optional cookies dict for download requests
-        skip_existing: Skip if directory contains .mp4
+        skip_existing: Skip already-downloaded videos
+        mode: "folder" (default) -- video + cover + metadata in sub-directories
+              "video-only" -- only .mp4 files, saved flat in output_dir
 
     Returns:
         Stats dict: {total, success, skipped, failed}
@@ -79,16 +87,24 @@ async def download_videos(
 
             safe_desc = sanitize_filename(desc)
             folder_name = f"{date_str}_{safe_desc}_{aweme_id}"
-            video_dir = output_dir / folder_name
 
-            if skip_existing and video_dir.exists():
-                mp4_files = list(video_dir.glob("*.mp4"))
-                if mp4_files:
+            if mode == "video-only":
+                # Flat mode: just the .mp4 file
+                video_file = output_dir / f"{folder_name}.mp4"
+                if skip_existing and video_file.exists():
                     print(f"\n[{i+1}/{len(awemes)}] SKIP (exists): {folder_name[:60]}")
                     stats["skipped"] += 1
                     continue
+            else:
+                # Folder mode: sub-directory with video + cover + metadata
+                video_dir = output_dir / folder_name
+                if skip_existing and video_dir.exists():
+                    mp4_files = list(video_dir.glob("*.mp4"))
+                    if mp4_files:
+                        print(f"\n[{i+1}/{len(awemes)}] SKIP (exists): {folder_name[:60]}")
+                        stats["skipped"] += 1
+                        continue
 
-            video_dir.mkdir(parents=True, exist_ok=True)
             print(f"\n[{i+1}/{len(awemes)}] {folder_name[:60]}")
 
             # Get video URL
@@ -112,24 +128,35 @@ async def download_videos(
             # Normalize domain
             video_url = re.sub(r'https?://[^/]+', 'https://www.douyin.com', video_url)
 
-            # Download video
-            video_path = video_dir / f"{folder_name}.mp4"
-            success = await download_file(session, video_url, video_path, headers, "video")
-            if not success:
-                stats["failed"] += 1
-                continue
+            if mode == "video-only":
+                # Download video file only, flat output
+                video_path = output_dir / f"{folder_name}.mp4"
+                success = await download_file(session, video_url, video_path, headers, "video")
+                if not success:
+                    stats["failed"] += 1
+                    continue
+            else:
+                # Folder mode: create sub-directory
+                video_dir = output_dir / folder_name
+                video_dir.mkdir(parents=True, exist_ok=True)
 
-            # Download cover
-            cover = video.get("cover", {})
-            cover_urls = cover.get("url_list", [])
-            if cover_urls:
-                cover_path = video_dir / f"{folder_name}_cover.jpg"
-                await download_file(session, cover_urls[0], cover_path, headers, "cover")
+                video_path = video_dir / f"{folder_name}.mp4"
+                success = await download_file(session, video_url, video_path, headers, "video")
+                if not success:
+                    stats["failed"] += 1
+                    continue
 
-            # Save metadata
-            meta_path = video_dir / f"{folder_name}_data.json"
-            meta_path.write_text(json.dumps(aweme, ensure_ascii=False, indent=2), encoding="utf-8")
-            print(f"  [OK] metadata")
+                # Download cover
+                cover = video.get("cover", {})
+                cover_urls = cover.get("url_list", [])
+                if cover_urls:
+                    cover_path = video_dir / f"{folder_name}_cover.jpg"
+                    await download_file(session, cover_urls[0], cover_path, headers, "cover")
+
+                # Save metadata
+                meta_path = video_dir / f"{folder_name}_data.json"
+                meta_path.write_text(json.dumps(aweme, ensure_ascii=False, indent=2), encoding="utf-8")
+                print(f"  [OK] metadata")
 
             stats["success"] += 1
             await asyncio.sleep(1)
@@ -146,10 +173,12 @@ def main():
     parser.add_argument("--metadata", type=Path, required=True, help="Path to videos.json from scraper")
     parser.add_argument("--output", type=Path, default=Path("downloads"), help="Output directory")
     parser.add_argument("--no-skip", action="store_true", help="Don't skip existing downloads")
+    parser.add_argument("--mode", choices=["folder", "video-only"], default="folder",
+                        help="Download mode: folder (default) or video-only")
     args = parser.parse_args()
 
     awemes = json.loads(args.metadata.read_text(encoding="utf-8"))
-    asyncio.run(download_videos(awemes, args.output, skip_existing=not args.no_skip))
+    asyncio.run(download_videos(awemes, args.output, skip_existing=not args.no_skip, mode=args.mode))
 
 
 if __name__ == "__main__":

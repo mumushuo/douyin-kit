@@ -43,7 +43,7 @@ def cmd_scrape(args):
 def cmd_download(args):
     """Step 3: Download videos from metadata."""
     awemes = json.loads(args.metadata.read_text(encoding="utf-8"))
-    asyncio.run(download_videos(awemes, args.output, skip_existing=not args.no_skip))
+    asyncio.run(download_videos(awemes, args.output, skip_existing=not args.no_skip, mode=args.mode))
 
 
 def cmd_all(args):
@@ -71,7 +71,7 @@ def cmd_all(args):
 
     # Step 3: Download
     print(f"[STEP 3/3] Downloading {len(awemes)} videos to {args.output}...")
-    asyncio.run(download_videos(awemes, args.output))
+    asyncio.run(download_videos(awemes, args.output, mode=args.mode))
 
 
 def main():
@@ -123,6 +123,8 @@ Examples:
     p3.add_argument("--metadata", type=Path, required=True, help="Path to videos.json")
     p3.add_argument("--output", type=Path, default=Path("downloads"), help="Output directory")
     p3.add_argument("--no-skip", action="store_true", help="Don't skip existing")
+    p3.add_argument("--mode", choices=["folder", "video-only"], default="folder",
+                    help="Download mode: folder (default, including cover+metadata) or video-only")
     p3.set_defaults(func=cmd_download)
 
     # all-in-one
@@ -133,6 +135,8 @@ Examples:
     p4.add_argument("--end-date", help="End date filter (YYYY-MM-DD)")
     p4.add_argument("--headless", action="store_true", help="Headless mode")
     p4.add_argument("--output", type=Path, default=Path("downloads"), help="Output directory")
+    p4.add_argument("--mode", choices=["folder", "video-only"], default="folder",
+                    help="Download mode: folder (default, including cover+metadata) or video-only")
     p4.set_defaults(func=cmd_all)
 
     args = parser.parse_args()
