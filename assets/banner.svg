@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f0e8"/>
+      <stop offset="100%" style="stop-color:#e8dcc8"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d35400"/>
+      <stop offset="100%" style="stop-color:#e67e22"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="400" fill="url(#bg)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="180" cy="80" r="120" fill="#d35400" opacity="0.06"/>
+  <circle cx="1020" cy="320" r="90" fill="#d35400" opacity="0.04"/>
+  <rect x="40" y="40" width="1120" height="320" rx="4" fill="none" stroke="#d35400" stroke-width="1" opacity="0.12"/>
+
+  <!-- Top label -->
+  <text x="600" y="100" text-anchor="middle" font-family="'Noto Serif SC', Georgia, serif" font-size="13" fill="#8a7e6b" letter-spacing="4">OPEN SOURCE · PYTHON CLI TOOL</text>
+
+  <!-- Main title -->
+  <text x="600" y="190" text-anchor="middle" font-family="'Noto Serif SC', Georgia, serif" font-size="56" font-weight="900" fill="#2c2416">douyin-</text>
+  <text x="848" y="190" text-anchor="middle" font-family="'Noto Serif SC', Georgia, serif" font-size="56" font-weight="900" fill="url(#accent)">kit</text>
+
+  <!-- Divider line -->
+  <line x1="440" y1="215" x2="760" y2="215" stroke="#d35400" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Subtitle -->
+  <text x="600" y="255" text-anchor="middle" font-family="'Noto Sans SC', sans-serif" font-size="15" fill="#5a4a36" letter-spacing="1">保留水印 · 浏览器滚动 · 代码干净</text>
+  <text x="600" y="282" text-anchor="middle" font-family="'Noto Sans SC', sans-serif" font-size="13" fill="#8a7e6b">一个纯粹用于技术研究的抖音下载工具</text>
+
+  <!-- Bottom tags -->
+  <text x="600" y="340" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8a7e6b" letter-spacing="2">Python · Playwright · aiohttp · 异步并发</text>
+
+  <!-- Version badge -->
+  <rect x="540" y="358" width="120" height="24" rx="12" fill="#d35400" opacity="0.1"/>
+  <text x="600" y="374" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#d35400" letter-spacing="1">v0.1.0 · MIT</text>
+</svg>
