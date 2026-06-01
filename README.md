@@ -10,19 +10,22 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/mumushuo/douyin-kit">
-    <img src="https://raw.githubusercontent.com/mumushuo/douyin-kit/main/assets/banner.svg" alt="douyin-kit banner" width="100%"/>
-  </a>
+  <a href="https://github.com/mumushuo/douyin-kit/stargazers"><img src="https://img.shields.io/github/stars/mumushuo/douyin-kit?style=social"/></a>
+  <a href="https://github.com/mumushuo/douyin-kit/network/members"><img src="https://img.shields.io/github/forks/mumushuo/douyin-kit?style=social"/></a>
 </p>
 
 ---
 
 ## 为什么选择 douyin-kit
 
+<div align="center">
+
 | | | |
 |---|---|---|
 | **保留水印** | **浏览器真实滚动** | **代码即文档** |
 | 不碰去水印，守住合规底线 | 不用 API，分页不是天花板 | 每个模块都能读懂 |
+
+</div>
 
 > 本项目与抖音、字节跳动无关。仅供个人学习与技术研究使用，使用者须自行遵守抖音用户协议。
 
