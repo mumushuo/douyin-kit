@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://github.com/mumushuo/douyin-kit">
-    <img src="assets/banner.svg" alt="douyin-kit banner" width="100%"/>
+    <img src="https://raw.githubusercontent.com/mumushuo/douyin-kit/main/assets/banner.svg" alt="douyin-kit banner" width="100%"/>
   </a>
 </p>
 
