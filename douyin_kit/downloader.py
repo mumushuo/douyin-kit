@@ -60,7 +60,9 @@ async def download_videos(
     Args:
         awemes: List of aweme dicts from scraper
         output_dir: Directory to save downloads
-        cookies: Optional cookies dict for download requests
+        cookies: Optional cookies dict for download requests.
+                NOTE: Currently not used. Signed video URLs may expire;
+                retrying with cookies-based auth after expiration is a TODO.
         skip_existing: Skip already-downloaded videos
         mode: "folder" (default) -- video + cover + metadata in sub-directories
               "video-only" -- only .mp4 files, saved flat in output_dir

@@ -32,7 +32,7 @@ def cmd_scrape(args):
     scraper = DouyinScraper(cookies)
 
     start = datetime.strptime(args.start_date, "%Y-%m-%d") if args.start_date else None
-    end = datetime.strptime(args.end_date, "%Y-%m-%d") if args.end_date else None
+    end = datetime.strptime(args.end_date, "%Y-%m-%d").replace(hour=23, minute=59, second=59) if args.end_date else None
 
     results = asyncio.run(scraper.scrape(args.url, start, end, args.headless))
 
@@ -62,7 +62,7 @@ def cmd_all(args):
     scraper = DouyinScraper(cookies)
 
     start = datetime.strptime(args.start_date, "%Y-%m-%d") if args.start_date else None
-    end = datetime.strptime(args.end_date, "%Y-%m-%d") if args.end_date else None
+    end = datetime.strptime(args.end_date, "%Y-%m-%d").replace(hour=23, minute=59, second=59) if args.end_date else None
     awemes = asyncio.run(scraper.scrape(args.url, start, end, args.headless))
 
     if not awemes:

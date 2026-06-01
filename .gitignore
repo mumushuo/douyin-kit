@@ -11,3 +11,12 @@ cookies.json
 *.mp4
 *.jpg
 downloads/
+
+# Scraped metadata
+videos.json
+
+# Logs and temp files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
